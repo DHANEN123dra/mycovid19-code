@@ -22,14 +22,14 @@ const intilizeDbAndServer = async () => {
 }
 intilizeDbAndServer()
 
-const convertStateObjectToresponseObject = newObject => {
+const convertStateObjectToResponseObject = newObject => {
   return {
     stateId: newObject.state_id,
     stateName: newObject.state_name,
     population: newObject.population,
   }
 }
-const convertDistrictObjectToresponseObject = newObject => {
+const convertDistrictObjectToResponseObject = newObject => {
   return {
     districtId: newObject.district_id,
     districtName: newObject.district_name,
@@ -60,7 +60,7 @@ app.get('/states/', async (request, response) => {
   const stateArray = await db.all(getStatesQuery)
   response.send(
     stateArray.map(eachState => {
-      convertStateObjectToResponseObject(eachState)
+      return convertStateObjectToResponseObject(eachState)
     }),
   )
 })
@@ -100,7 +100,7 @@ app.get('/districts/:districtId/', async (request, response) => {
   WHERE
    district_id=${districtId};`
   const district = await db.get(getDistrictQuery)
-  response.send(convertDistrictObjectToresponseObject(district))
+  response.send(convertDistrictObjectToResponseObject(district))
 })
 
 app.delete('/districts/:districtId/', async (request, response) => {
